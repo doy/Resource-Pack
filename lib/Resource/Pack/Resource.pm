@@ -5,19 +5,20 @@ use MooseX::Types::Path::Class qw(Dir);
 extends 'Bread::Board::Container';
 with 'Resource::Pack::Installable';
 
-has install_from => (
+has install_from_dir => (
     is         => 'rw',
     isa        => Dir,
     coerce     => 1,
-    predicate  => 'has_install_from',
+    init_arg   => 'install_from',
+    predicate  => 'has_install_from_dir',
     lazy       => 1,
     default    => sub {
         my $self = shift;
         if ($self->has_parent) {
-            return $self->parent->install_from;
+            return $self->parent->install_from_dir;
         }
         else {
-            confess "install_from is required for root containers";
+            confess "install_from_dir is required for root containers";
         }
     },
 );

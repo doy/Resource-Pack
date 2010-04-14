@@ -60,11 +60,11 @@ sub url ($@) {
 }
 
 sub install_to ($) {
-    $CC->install_to(shift);
+    $CC->install_to_dir(shift);
 }
 
 sub install_from ($) {
-    $CC->install_from(shift);
+    $CC->install_from_dir(shift);
 }
 
 Moose::Exporter->setup_import_methods(

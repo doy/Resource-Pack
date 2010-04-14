@@ -29,9 +29,6 @@ use Path::Class;
             dir 'images';
         };
     }
-
-    no Resource::Pack;
-    no Moose;
 }
 
 my $resource = My::App::Resources->new(install_to => 'app');

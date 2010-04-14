@@ -19,7 +19,7 @@ sub install {
     my $self = shift;
     my $response = LWP::UserAgent->new->get($self->url->as_string);
     if ($response->is_success) {
-        my $to = $self->install_to;
+        my $to = $self->install_to_dir;
         $to->mkpath unless -e $to;
         my $fh = $to->file(($self->url->path_segments)[-1])->openw;
         $fh->print($response->content);

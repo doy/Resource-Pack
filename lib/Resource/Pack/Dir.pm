@@ -16,15 +16,16 @@ has dir => (
 
 sub get { shift->dir }
 
-has install_from => (
+has install_from_dir => (
     is         => 'rw',
     isa        => Dir,
     coerce     => 1,
-    predicate  => 'has_install_from',
+    init_arg   => 'install_from',
+    predicate  => 'has_install_from_dir',
     default    => sub {
         my $self = shift;
-        if ($self->has_parent && $self->parent->has_install_from) {
-            return $self->parent->install_from;
+        if ($self->has_parent && $self->parent->has_install_from_dir) {
+            return $self->parent->install_from_dir;
         }
         else {
             confess "install_from is required for Dir resources without a container";
@@ -35,8 +36,8 @@ has install_from => (
 sub install {
     my $self = shift;
     dircopy(
-        $self->install_from->subdir($self->dir)->stringify,
-        $self->install_to->subdir($self->dir)->stringify,
+        $self->install_from_dir->subdir($self->dir)->stringify,
+        $self->install_to_dir->subdir($self->dir)->stringify,
     );
 }
 

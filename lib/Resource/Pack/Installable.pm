@@ -4,27 +4,27 @@ use MooseX::Types::Path::Class qw(Dir);
 
 requires 'install';
 
-has _install_to => (
+has _install_to_dir => (
     is         => 'rw',
     isa        => Dir,
     coerce     => 1,
-    predicate  => '_has_install_to',
+    predicate  => '_has_install_to_dir',
     init_arg   => 'install_to',
 );
 
 sub _install_to_parts {
     my $self = shift;
     if ($self->has_parent && $self->parent->does(__PACKAGE__)) {
-        if ($self->_has_install_to) {
-            return ($self->parent->_install_to_parts, $self->_install_to);
+        if ($self->_has_install_to_dir) {
+            return ($self->parent->_install_to_parts, $self->_install_to_dir);
         }
         else {
             return $self->parent->_install_to_parts;
         }
     }
     else {
-        if ($self->_has_install_to) {
-            return $self->_install_to;
+        if ($self->_has_install_to_dir) {
+            return $self->_install_to_dir;
         }
         else {
             return;
@@ -32,7 +32,7 @@ sub _install_to_parts {
     }
 }
 
-sub install_to {
+sub install_to_dir {
     my $self = shift;
     return Path::Class::Dir->new($self->_install_to_parts);
 }
