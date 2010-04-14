@@ -10,6 +10,7 @@ has install_from => (
     isa        => Dir,
     coerce     => 1,
     predicate  => 'has_install_from',
+    lazy       => 1,
     default    => sub {
         my $self = shift;
         if ($self->has_parent) {
