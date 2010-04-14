@@ -33,6 +33,30 @@ sub install {
     }
 }
 
+sub add_file {
+    my $self = shift;
+    $self->add_service(Resource::Pack::File->new(
+        @_,
+        parent => $self,
+    ));
+}
+
+sub add_dir {
+    my $self = shift;
+    $self->add_service(Resource::Pack::Dir->new(
+        @_,
+        parent => $self,
+    ));
+}
+
+sub add_url {
+    my $self = shift;
+    $self->add_service(Resource::Pack::URL->new(
+        @_,
+        parent => $self,
+    ));
+}
+
 __PACKAGE__->meta->make_immutable;
 no Moose;
 
