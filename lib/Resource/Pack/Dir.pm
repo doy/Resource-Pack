@@ -17,7 +17,7 @@ has dir => (
 sub get { shift->dir }
 
 has install_from => (
-    is         => 'ro',
+    is         => 'rw',
     isa        => Dir,
     coerce     => 1,
     predicate  => 'has_install_from',

@@ -6,7 +6,7 @@ extends 'Bread::Board::Container';
 with 'Resource::Pack::Installable';
 
 has install_from => (
-    is         => 'ro',
+    is         => 'rw',
     isa        => Dir,
     coerce     => 1,
     predicate  => 'has_install_from',
