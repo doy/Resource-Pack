@@ -7,10 +7,11 @@ use File::Copy::Recursive qw(fcopy);
 with 'Resource::Pack::Installable', 'Bread::Board::Service';
 
 has file => (
-    is       => 'ro',
-    isa      => File,
-    coerce   => 1,
-    required => 1,
+    is      => 'ro',
+    isa     => File,
+    coerce  => 1,
+    lazy    => 1,
+    default => sub { Path::Class::File->new(shift->name) },
 );
 
 sub get { shift->file }

@@ -7,10 +7,11 @@ use File::Copy::Recursive qw(dircopy);
 with 'Resource::Pack::Installable', 'Bread::Board::Service';
 
 has dir => (
-    is       => 'ro',
-    isa      => Dir,
-    coerce   => 1,
-    required => 1,
+    is      => 'ro',
+    isa     => Dir,
+    coerce  => 1,
+    lazy    => 1,
+    default => sub { Path::Class::Dir->new(shift->name) },
 );
 
 sub get { shift->dir }
