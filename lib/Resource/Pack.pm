@@ -3,6 +3,12 @@ use Moose::Exporter;
 
 use Bread::Board ();
 use Carp qw(confess);
+use Scalar::Util qw(blessed);
+
+use Resource::Pack::Dir;
+use Resource::Pack::File;
+use Resource::Pack::Resource;
+use Resource::Pack::URL;
 
 our $CC;
 
@@ -38,19 +44,19 @@ sub resource ($;$$) {
 sub file ($@) {
     my $name = shift;
     unshift @_, 'file' if @_ % 2 == 1;
-    $CC->add_service(Resource::Pack::File->new(@_));
+    $CC->add_file(@_);
 }
 
 sub dir ($@) {
     my $name = shift;
     unshift @_, 'dir' if @_ % 2 == 1;
-    $CC->add_service(Resource::Pack::Dir->new(@_));
+    $CC->add_dir(@_);
 }
 
 sub url ($@) {
     my $name = shift;
     unshift @_, 'url' if @_ % 2 == 1;
-    $CC->add_service(Resource::Pack::URL->new(@_));
+    $CC->add_url(@_);
 }
 
 sub install_to ($) {
