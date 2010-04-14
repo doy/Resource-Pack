@@ -4,7 +4,9 @@ use MooseX::Types::URI qw(Uri);
 
 use LWP::UserAgent;
 
-with 'Resource::Pack::Installable', 'Bread::Board::Service';
+with 'Resource::Pack::Installable',
+     'Bread::Board::Service',
+     'Bread::Board::Service::WithDependencies';
 
 has url => (
     is       => 'ro',

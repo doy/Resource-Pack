@@ -4,7 +4,9 @@ use MooseX::Types::Path::Class qw(File Dir);
 
 use File::Copy::Recursive qw(fcopy);
 
-with 'Resource::Pack::Installable', 'Bread::Board::Service';
+with 'Resource::Pack::Installable',
+     'Bread::Board::Service',
+     'Bread::Board::Service::WithDependencies';
 
 has file => (
     is      => 'ro',
