@@ -20,18 +20,17 @@ has install_from => (
     is         => 'ro',
     isa        => Dir,
     coerce     => 1,
-    lazy_build => 1,
+    predicate  => 'has_install_from',
+    default    => sub {
+        my $self = shift;
+        if ($self->has_parent && $self->parent->has_install_from) {
+            return $self->parent->install_from;
+        }
+        else {
+            confess "install_from is required for File resources without a container";
+        }
+    },
 );
-
-sub _build_install_from {
-    my $self = shift;
-    if ($self->parent->has_install_from) {
-        return $self->parent->install_from;
-    }
-    else {
-        confess "install_from is required for File resources without a container";
-    }
-}
 
 sub install {
     my $self = shift;
