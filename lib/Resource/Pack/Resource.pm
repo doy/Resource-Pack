@@ -1,8 +1,25 @@
 package Resource::Pack::Resource;
 use Moose;
+use MooseX::Types::Path::Class qw(Dir);
 
 extends 'Bread::Board::Container';
 with 'Resource::Pack::Installable';
+
+has install_from => (
+    is         => 'ro',
+    isa        => Dir,
+    coerce     => 1,
+    predicate  => 'has_install_from',
+    default    => sub {
+        my $self = shift;
+        if ($self->has_parent) {
+            return $self->parent->install_from;
+        }
+        else {
+            confess "install_from is required for root containers";
+        }
+    },
+);
 
 sub install {
     my $self = shift;
