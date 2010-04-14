@@ -35,8 +35,8 @@ has install_from => (
 sub install {
     my $self = shift;
     dircopy(
-        $self->install_from->dir($self->dir)->stringify,
-        $self->install_to->dir($self->dir)->stringify,
+        $self->install_from->subdir($self->dir)->stringify,
+        $self->install_to->subdir($self->dir)->stringify,
     );
 }
 
