@@ -14,7 +14,7 @@ has _install_to => (
 
 sub _install_to_parts {
     my $self = shift;
-    if ($self->parent && $self->parent->does(__PACKAGE__)) {
+    if ($self->has_parent && $self->parent->does(__PACKAGE__)) {
         if ($self->_has_install_to) {
             return ($self->parent->_install_to_parts, $self->_install_to);
         }
@@ -23,7 +23,12 @@ sub _install_to_parts {
         }
     }
     else {
-        return;
+        if ($self->_has_install_to) {
+            return $self->_install_to;
+        }
+        else {
+            return;
+        }
     }
 }
 
