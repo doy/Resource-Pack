@@ -1,104 +1,46 @@
 package Resource::Pack::Dir;
-use Moose::Role;
-use MooseX::Params::Validate;
+use Moose;
+use MooseX::Types::Path::Class qw(Dir);
 
-our $VERSION   = '0.01';
-our $AUTHORITY = 'cpan:STEVAN';
+use File::Copy::Recursive qw(dircopy);
 
-use Resource::Pack::Types;
+with 'Resource::Pack::Installable', 'Bread::Board::Service';
 
-with 'Resource::Pack::Core',
-     'Resource::Pack::Util::FileSys';
-
-has 'dir' => (
+has dir => (
     is       => 'ro',
-    isa      => 'Path::Class::Dir',
-    lazy     => 1,
-    default  => sub {
-        my $self = shift;
-        $self->class_file->parent->subdir(
-             $self->local_class_name
-        )
-    }
+    isa      => Dir,
+    coerce   => 1,
+    required => 1,
 );
 
-sub copy {
+sub get { shift->dir }
+
+has install_from => (
+    is         => 'ro',
+    isa        => Dir,
+    coerce     => 1,
+    lazy_build => 1,
+);
+
+sub _build_install_from {
     my $self = shift;
-    my ($to, $include_dependencies, $preserve_dir) = validated_list(\@_,
-        to           => { isa => 'Path::Class::Dir', coerce => 1 },
-        include_deps => { isa => 'Bool', optional => 1 },
-        preserve_dir => { isa => 'Bool', optional => 1 },
-    );
-
-    my @to_copy = $preserve_dir ? $self->dir : $self->dir->children;
-
-    $self->_copy_entity_recursively( $_, $to ) for @to_copy;
-
-    if ( $include_dependencies ) {
-        # XXX
-        # should we check to make sure
-        # that it can('copy'). And then
-        # should we die if not? or ignore
-        # it and go to the next?
-        # - SL
-        $_->copy( @_ ) foreach $self->dependencies;
+    if ($self->parent->has_install_from) {
+        return $self->parent->install_from;
+    }
+    else {
+        confess "install_from is required for Dir resources without a container";
     }
 }
 
-no Moose::Role; 1;
+sub install {
+    my $self = shift;
+    dircopy(
+        $self->install_from->dir($self->dir)->stringify,
+        $self->install_to->dir($self->dir)->stringify,
+    );
+}
 
-__END__
+__PACKAGE__->meta->make_immutable;
+no Moose;
 
-=pod
-
-=head1 NAME
-
-Resource::Pack::Dir - A Moosey solution to this problem
-
-=head1 SYNOPSIS
-
-  use Resource::Pack::Dir;
-
-=head1 DESCRIPTION
-
-This is a role which tells Resource::Pack to look in the directory
-which matches the full class name. This means that given the
-class namespace B<Foo::Bar::Baz.pm> it will look in the directory
-F<Foo/Bar/Baz/*> for the resources.
-
-=head1 ATTRIBUTES
-
-=over 4
-
-=item B<dir>
-
-=back
-
-=head1 METHODS
-
-=over 4
-
-=item B<copy( to => $dir, ?include_deps => 1|0, ?preserve_dir => 1|0 )>
-
-=back
-
-=head1 BUGS
-
-All complex software has bugs lurking in it, and this module is no
-exception. If you find a bug please either email me, or add the bug
-to cpan-RT.
-
-=head1 AUTHOR
-
-Stevan Little E<lt>stevan.little@iinteractive.comE<gt>
-
-=head1 COPYRIGHT AND LICENSE
-
-Copyright 2010 Infinity Interactive, Inc.
-
-L<http://www.iinteractive.com>
-
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself.
-
-=cut
+1;
