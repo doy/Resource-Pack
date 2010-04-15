@@ -29,6 +29,17 @@ use Resource::Pack::URL;
 }
 
 {
+    my $dir = Resource::Pack::Dir->new(
+        name         => 'test',
+        dir          => 'css',
+        install_from => data_dir,
+        install_as   => '',
+    );
+
+    test_install($dir, 'style.css');
+}
+
+{
     my $url = Resource::Pack::URL->new(
         name       => 'jquery',
         url        => 'http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js',
