@@ -46,6 +46,8 @@ after install => sub {
     }
 };
 
+sub get { shift->install_as }
+
 no Moose::Role;
 
 1;

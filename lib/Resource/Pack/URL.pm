@@ -1,5 +1,6 @@
 package Resource::Pack::URL;
 use Moose;
+use MooseX::Types::Path::Class qw(File);
 use MooseX::Types::URI qw(Uri);
 
 use LWP::UserAgent;
@@ -15,7 +16,13 @@ has url => (
     required => 1,
 );
 
-sub get { shift->url }
+has install_as => (
+    is      => 'rw',
+    isa     => File,
+    coerce  => 1,
+    lazy    => 1,
+    default => sub { (shift->url->path_segments)[-1] },
+);
 
 sub install {
     my $self = shift;
@@ -23,7 +30,7 @@ sub install {
     if ($response->is_success) {
         my $to = $self->install_to_dir;
         $to->mkpath unless -e $to;
-        my $fh = $to->file(($self->url->path_segments)[-1])->openw;
+        my $fh = $to->file($self->install_as)->openw;
         $fh->print($response->content);
         $fh->close;
     }

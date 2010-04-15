@@ -16,8 +16,6 @@ has dir => (
     default => sub { Path::Class::Dir->new(shift->name) },
 );
 
-sub get { shift->dir }
-
 has install_from_dir => (
     is         => 'rw',
     isa        => Dir,
@@ -35,11 +33,19 @@ has install_from_dir => (
     },
 );
 
+has install_as => (
+    is      => 'rw',
+    isa     => Dir,
+    coerce  => 1,
+    lazy    => 1,
+    default => sub { shift->dir },
+);
+
 sub install {
     my $self = shift;
     dircopy(
         $self->install_from_dir->subdir($self->dir)->stringify,
-        $self->install_to_dir->subdir($self->dir)->stringify,
+        $self->install_to_dir->subdir($self->install_as)->stringify,
     );
 }
 

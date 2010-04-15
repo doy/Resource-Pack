@@ -35,11 +35,19 @@ has install_from_dir => (
     },
 );
 
+has install_as => (
+    is      => 'rw',
+    isa     => File,
+    coerce  => 1,
+    lazy    => 1,
+    default => sub { shift->file },
+);
+
 sub install {
     my $self = shift;
     fcopy(
         $self->install_from_dir->file($self->file)->stringify,
-        $self->install_to_dir->file($self->file)->stringify,
+        $self->install_to_dir->file($self->install_as)->stringify,
     );
 }
 
