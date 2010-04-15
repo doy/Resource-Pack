@@ -41,11 +41,9 @@ has install_as => (
     default => sub { shift->dir },
 );
 
-sub install {
+sub install_from_absolute {
     my $self = shift;
-    my $from = $self->install_from_dir->subdir($self->dir)->stringify;
-    my $to   = $self->install_to_dir->subdir($self->install_as)->stringify;
-    dircopy($from, $to) or die "Couldn't copy $from to $to: $!";
+    $self->install_from_dir->subdir($self->dir);
 }
 
 __PACKAGE__->meta->make_immutable;

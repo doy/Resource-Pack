@@ -24,13 +24,18 @@ has install_as => (
     default => sub { (shift->url->path_segments)[-1] },
 );
 
+sub install_from_absolute {
+    my $self = shift;
+    $self->url;
+}
+
 sub install {
     my $self = shift;
     my $response = LWP::UserAgent->new->get($self->url->as_string);
     if ($response->is_success) {
-        my $to = $self->install_to_dir;
-        $to->mkpath unless -e $to;
-        my $fh = $to->file($self->install_as)->openw;
+        my $to = $self->install_to_absolute;
+        $to->parent->mkpath unless -e $to->parent;
+        my $fh = $to->openw;
         $fh->print($response->content);
         $fh->close;
     }

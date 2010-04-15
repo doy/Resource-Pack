@@ -16,8 +16,6 @@ has file => (
     default => sub { Path::Class::File->new(shift->name) },
 );
 
-sub get { shift->file }
-
 has install_from_dir => (
     is         => 'rw',
     isa        => Dir,
@@ -43,11 +41,9 @@ has install_as => (
     default => sub { shift->file },
 );
 
-sub install {
+sub install_from_absolute {
     my $self = shift;
-    my $from = $self->install_from_dir->file($self->file)->stringify;
-    my $to   = $self->install_to_dir->file($self->install_as)->stringify;
-    fcopy($from, $to) or die "Couldn't copy $from to $to: $!";
+    $self->install_from_dir->file($self->file);
 }
 
 __PACKAGE__->meta->make_immutable;

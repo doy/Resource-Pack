@@ -2,6 +2,9 @@ package Resource::Pack::Installable;
 use Moose::Role;
 use MooseX::Types::Path::Class qw(Dir);
 
+use File::Copy::Recursive qw(rcopy);
+use Path::Class;
+
 requires 'install';
 
 has _install_to_dir => (
@@ -36,6 +39,23 @@ sub install_to_dir {
     my $self = shift;
     $self->_install_to_dir(@_);
     return Path::Class::Dir->new($self->_install_to_parts);
+}
+
+sub install_to_absolute {
+    my $self = shift;
+    my $to = $self->install_to_dir;
+    if ($self->can('get')) {
+        $to = $self->isa('Resource::Pack::Dir') ? dir($to, $self->get)
+                                                : file($to, $self->get);
+    }
+    return $to;
+}
+
+sub install {
+    my $self = shift;
+    my $from = $self->install_from_absolute->stringify;
+    my $to   = $self->install_to_absolute->stringify;
+    rcopy($from, $to) or die "Couldn't copy $from to $to: $!";
 }
 
 after install => sub {
