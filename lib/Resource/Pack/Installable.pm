@@ -4,6 +4,16 @@ use MooseX::Types::Path::Class qw(Dir);
 
 use File::Copy::Recursive ();
 
+=head1 NAME
+
+Resource::Pack::Installable - role for installable resources
+
+=head1 SYNOPSIS
+
+=head1 DESCRIPTION
+
+=cut
+
 requires 'install';
 
 has _install_to_dir => (
@@ -71,5 +81,20 @@ after install => sub {
 sub get { shift->install_as }
 
 no Moose::Role;
+
+=head1 AUTHORS
+
+  Stevan Little <stevan.little@iinteractive.com>
+
+  Jesse Luehrs <doy at tozt dot net>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is copyright (c) 2010 Infinity Interactive, Inc.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as perl itself.
+
+=cut
 
 1;

@@ -9,6 +9,16 @@ with 'Resource::Pack::Installable',
      'Bread::Board::Service',
      'Bread::Board::Service::WithDependencies';
 
+=head1 NAME
+
+Resource::Pack::URL - a URL resource
+
+=head1 SYNOPSIS
+
+=head1 DESCRIPTION
+
+=cut
+
 has url => (
     is       => 'ro',
     isa      => Uri,
@@ -47,5 +57,20 @@ sub install {
 
 __PACKAGE__->meta->make_immutable;
 no Moose;
+
+=head1 AUTHORS
+
+  Stevan Little <stevan.little@iinteractive.com>
+
+  Jesse Luehrs <doy at tozt dot net>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is copyright (c) 2010 Infinity Interactive, Inc.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as perl itself.
+
+=cut
 
 1;

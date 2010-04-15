@@ -5,6 +5,16 @@ use MooseX::Types::Path::Class qw(Dir);
 extends 'Bread::Board::Container';
 with 'Resource::Pack::Installable';
 
+=head1 NAME
+
+Resource::Pack::Resource - a collection of resources
+
+=head1 SYNOPSIS
+
+=head1 DESCRIPTION
+
+=cut
+
 has install_from_dir => (
     is         => 'rw',
     isa        => Dir,
@@ -74,5 +84,20 @@ sub add_url {
 
 __PACKAGE__->meta->make_immutable;
 no Moose;
+
+=head1 AUTHORS
+
+  Stevan Little <stevan.little@iinteractive.com>
+
+  Jesse Luehrs <doy at tozt dot net>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is copyright (c) 2010 Infinity Interactive, Inc.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as perl itself.
+
+=cut
 
 1;

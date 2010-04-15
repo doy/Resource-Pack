@@ -6,6 +6,16 @@ with 'Resource::Pack::Installable',
      'Bread::Board::Service',
      'Bread::Board::Service::WithDependencies';
 
+=head1 NAME
+
+Resource::Pack::File - a file resource
+
+=head1 SYNOPSIS
+
+=head1 DESCRIPTION
+
+=cut
+
 has file => (
     is      => 'ro',
     isa     => File,
@@ -46,5 +56,20 @@ sub install_from_absolute {
 
 __PACKAGE__->meta->make_immutable;
 no Moose;
+
+=head1 AUTHORS
+
+  Stevan Little <stevan.little@iinteractive.com>
+
+  Jesse Luehrs <doy at tozt dot net>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is copyright (c) 2010 Infinity Interactive, Inc.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as perl itself.
+
+=cut
 
 1;
