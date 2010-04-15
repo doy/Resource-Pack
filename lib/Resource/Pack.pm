@@ -1,7 +1,7 @@
 package Resource::Pack;
 use Moose::Exporter;
 
-use Bread::Board ();
+use Bread::Board;
 use Carp qw(confess);
 use Scalar::Util qw(blessed);
 
@@ -67,12 +67,15 @@ sub install_from ($) {
     $CC->install_from_dir(shift);
 }
 
-sub include ($) {
-    my $file = shift;
-    my $resources = Path::Class::File->new($file)->slurp . ";\n1;";
-    if (!eval $resources) {
-        die "Couldn't compile $file: $@" if $@;
-        die "Unknown error when compiling $file";
+{
+    no warnings 'redefine';
+    sub include ($) {
+        my $file = shift;
+        my $resources = Path::Class::File->new($file)->slurp . ";\n1;";
+        if (!eval $resources) {
+            die "Couldn't compile $file: $@" if $@;
+            die "Unknown error when compiling $file";
+        }
     }
 }
 
