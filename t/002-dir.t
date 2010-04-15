@@ -15,7 +15,7 @@ throws_ok { Resource::Pack::Dir->new(name => 'test', dir => 'css') }
         install_from => data_dir,
     );
 
-    test_install($dir, file('css', 'style.css'), 'css');
+    test_install($dir, file('css', 'style.css'));
 }
 
 {
@@ -24,7 +24,7 @@ throws_ok { Resource::Pack::Dir->new(name => 'test', dir => 'css') }
         install_from => data_dir,
     );
 
-    test_install($dir, file('css', 'style.css'), 'css');
+    test_install($dir, file('css', 'style.css'));
 }
 
 done_testing;

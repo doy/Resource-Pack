@@ -35,9 +35,9 @@ test_install(
              qr/jQuery JavaScript Library/,
              "got correct jquery");
     },
-    map { $_->isa('Path::Class::Dir') ? dir('app', $_) : file('app', $_) }
-        (file('app.js'), file('css', 'app.css'), dir('css'),
-         file('images', 'logo.png'), dir('images'), file('jquery.min.js')),
+    map { file('app', $_) }
+        ('app.js', file('css', 'app.css'), file('images', 'logo.png'),
+         'jquery.min.js'),
 );
 
 done_testing;
