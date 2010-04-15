@@ -23,7 +23,16 @@ has install_from_dir => (
     },
 );
 
+# don't install subcontainer contents by default, unless they are explicit deps
 sub install {
+    my $self = shift;
+    for my $service_name ($self->get_service_list) {
+        my $service = $self->get_service($service_name);
+        $service->install if $service->does('Resource::Pack::Installable');
+    }
+}
+
+sub install_all {
     my $self = shift;
     for my $service_name ($self->get_service_list) {
         my $service = $self->get_service($service_name);
@@ -31,7 +40,8 @@ sub install {
     }
     for my $container_name ($self->get_sub_container_list) {
         my $container = $self->get_sub_container($container_name);
-        $container->install if $container->does('Resource::Pack::Installable');
+        $container->install_all
+            if $container->does('Resource::Pack::Installable');
     }
 }
 
