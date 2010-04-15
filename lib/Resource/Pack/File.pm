@@ -45,10 +45,9 @@ has install_as => (
 
 sub install {
     my $self = shift;
-    fcopy(
-        $self->install_from_dir->file($self->file)->stringify,
-        $self->install_to_dir->file($self->install_as)->stringify,
-    );
+    my $from = $self->install_from_dir->file($self->file)->stringify;
+    my $to   = $self->install_to_dir->file($self->install_as)->stringify;
+    fcopy($from, $to) or die "Couldn't copy $from to $to: $!";
 }
 
 __PACKAGE__->meta->make_immutable;
