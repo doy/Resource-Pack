@@ -2,8 +2,6 @@ package Resource::Pack::Dir;
 use Moose;
 use MooseX::Types::Path::Class qw(Dir);
 
-use File::Copy::Recursive qw(dircopy);
-
 with 'Resource::Pack::Installable',
      'Bread::Board::Service',
      'Bread::Board::Service::WithDependencies';
