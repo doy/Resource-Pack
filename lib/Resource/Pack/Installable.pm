@@ -34,6 +34,7 @@ sub _install_to_parts {
 
 sub install_to_dir {
     my $self = shift;
+    $self->_install_to_dir(@_);
     return Path::Class::Dir->new($self->_install_to_parts);
 }
 
