@@ -14,6 +14,8 @@ has resource_file => (
 
 sub BUILD {
     my $self = shift;
+    die "Can't find file " . $self->resource_file
+        unless -f $self->resource_file;
     resource $self => as {
         install_from(Path::Class::File->new($self->resource_file)->parent);
         include($self->resource_file);
