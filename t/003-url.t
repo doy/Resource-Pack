@@ -1,7 +1,6 @@
 #!/usr/bin/env perl
-use strict;
-use warnings;
-use Test::More;
+use lib 't/lib';
+use Test::Resource::Pack;
 
 use Resource::Pack::URL;
 
@@ -10,14 +9,15 @@ use Resource::Pack::URL;
         name => 'jquery',
         url  => 'http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js',
     );
-    ok(!-e 'jquery.min.js', "doesn't exist yet");
-    $url->install;
-    ok(-e 'jquery.min.js', "installed properly");
-    like(Path::Class::File->new('jquery.min.js')->slurp,
-         qr/jQuery JavaScript Library/,
-         "got jquery");
-
-    unlink 'jquery.min.js';
+    test_install(
+        $url,
+        sub {
+            like(file('jquery.min.js')->slurp,
+                 qr/jQuery JavaScript Library/,
+                 "got jquery");
+        },
+        'jquery.min.js',
+    );
 }
 
 done_testing;

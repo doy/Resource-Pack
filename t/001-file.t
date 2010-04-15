@@ -1,10 +1,6 @@
 #!/usr/bin/env perl
-use strict;
-use warnings;
-use Test::More;
-use Test::Exception;
-use FindBin;
-use Path::Class;
+use lib 't/lib';
+use Test::Resource::Pack;
 
 use Resource::Pack::File;
 
@@ -16,27 +12,19 @@ throws_ok { Resource::Pack::File->new(name => 'test', file => 'test.txt') }
     my $file = Resource::Pack::File->new(
         name         => 'test',
         file         => 'test.txt',
-        install_from => dir($FindBin::Bin, 'data', '001'),
+        install_from => data_dir,
     );
 
-    ok(!-e 'test.txt', "doesn't exist yet");
-    $file->install;
-    ok(-e 'test.txt', "installed properly");
-
-    unlink 'test.txt';
+    test_install($file, 'test.txt');
 }
 
 {
     my $file = Resource::Pack::File->new(
         name         => 'test',
-        install_from => dir($FindBin::Bin, 'data', '001'),
+        install_from => data_dir,
     );
 
-    ok(!-e 'test', "doesn't exist yet");
-    $file->install;
-    ok(-e 'test', "installed properly with default file name");
-
-    unlink 'test';
+    test_install($file, 'test');
 }
 
 done_testing;
