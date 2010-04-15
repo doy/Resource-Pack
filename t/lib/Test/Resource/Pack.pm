@@ -8,6 +8,8 @@ use Test::Moose ();
 
 use FindBin;
 use Path::Class;
+use File::Temp;
+use Cwd;
 
 use Sub::Exporter;
 my $import = Sub::Exporter::build_exporter({
@@ -21,21 +23,21 @@ sub test_install {
     $code = shift if ref($_[0]) eq 'CODE';
     my (@expected) = @_;
     local $Test::Builder::Level = $Test::Builder::Level + 1;
+
+    my $olddir = getcwd;
+    my $dir = File::Temp->newdir;
+    chdir $dir;
+
     ok(!-e $_, "$_ doesn't exist yet") for @expected;
     $installable->install;
     ok(-e $_, "$_ exists!") for @expected;
+
     {
         local $Test::Builder::Level = $Test::Builder::Level + 1;
         $code->() if $code;
     }
-    for my $file (@expected) {
-        if (-d $file) {
-            dir($file)->rmtree;
-        }
-        else {
-            file($file)->remove;
-        }
-    }
+
+    chdir $olddir;
 }
 
 sub data_dir {
