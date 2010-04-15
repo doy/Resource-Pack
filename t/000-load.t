@@ -9,6 +9,7 @@ BEGIN {
         Resource::Pack::File
         Resource::Pack::Dir
         Resource::Pack::URL
+        Resource::Pack::FromFile
     );
 
     for my $mod (@modules) {
