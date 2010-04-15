@@ -37,6 +37,7 @@ sub install {
 
 sub add_file {
     my $self = shift;
+    require Resource::Pack::File;
     $self->add_service(Resource::Pack::File->new(
         @_,
         parent => $self,
@@ -45,6 +46,7 @@ sub add_file {
 
 sub add_dir {
     my $self = shift;
+    require Resource::Pack::Dir;
     $self->add_service(Resource::Pack::Dir->new(
         @_,
         parent => $self,
@@ -53,6 +55,7 @@ sub add_dir {
 
 sub add_url {
     my $self = shift;
+    require Resource::Pack::URL;
     $self->add_service(Resource::Pack::URL->new(
         @_,
         parent => $self,
