@@ -39,7 +39,7 @@ use Test::Resource::Pack;
 
             file js => (
                 file         => 'other.js',
-                dependencies => wire_names('css', 'jquery/core'),
+                dependencies => ['css', 'jquery/core'],
             );
 
             dir 'css';
@@ -70,7 +70,7 @@ use Test::Resource::Pack;
 
             file app_js => (
                 file         => 'app.js',
-                dependencies => wire_names('jquery/core', 'external/js'),
+                dependencies => ['jquery/core', 'external/js'],
             );
 
             file app_css => (
