@@ -68,7 +68,12 @@ sub install_from ($) {
 }
 
 sub include ($) {
-    do shift;
+    my $file = shift;
+    my $resources = Path::Class::File->new($file)->slurp . ";\n1;";
+    if (!eval $resources) {
+        die "Couldn't compile $file: $@" if $@;
+        die "Unknown error when compiling $file";
+    }
 }
 
 Moose::Exporter->setup_import_methods(
