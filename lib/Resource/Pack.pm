@@ -67,6 +67,10 @@ sub install_from ($) {
     $CC->install_from_dir(shift);
 }
 
+sub install_as ($) {
+    $CC->install_as(shift);
+}
+
 {
     no warnings 'redefine';
     sub include ($) {
@@ -81,7 +85,8 @@ sub install_from ($) {
 
 Moose::Exporter->setup_import_methods(
     also  => ['Bread::Board'],
-    as_is => [qw(resource file dir url install_to install_from include)],
+    as_is => [qw(resource file dir url install_to install_from install_as
+                 include)],
 );
 
 1;
