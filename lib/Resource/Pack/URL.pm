@@ -15,7 +15,28 @@ Resource::Pack::URL - a URL resource
 
 =head1 SYNOPSIS
 
+    my $url = Resource::Pack::URL->new(
+        name => 'jquery',
+        url  => 'http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js',
+    );
+    $url->install;
+
 =head1 DESCRIPTION
+
+This class represents a URL to be downloaded and installed. It can also be
+added as a subresource to a L<Resource::Pack::Resource>. This class consumes
+the L<Resource::Pack::Installable>, L<Bread::Board::Service>, and
+L<Bread::Board::Service::WithDependencies> roles.
+
+=cut
+
+=head1 ATTRIBUTES
+
+=cut
+
+=head2 url
+
+Required, read-only attribute for the source URL.
 
 =cut
 
@@ -26,6 +47,13 @@ has url => (
     required => 1,
 );
 
+=head2 install_as
+
+The name to use for the installed file. Defaults to the filename portion of the
+C<url> attribute.
+
+=cut
+
 has install_as => (
     is      => 'rw',
     isa     => File,
@@ -34,10 +62,26 @@ has install_as => (
     default => sub { (shift->url->path_segments)[-1] },
 );
 
+=head1 METHODS
+
+=cut
+
+=head2 install_from_absolute
+
+Returns the entire source url.
+
+=cut
+
 sub install_from_absolute {
     my $self = shift;
     $self->url;
 }
+
+=head2 install
+
+Overridden to handle the downloading of the source file, before installing it.
+
+=cut
 
 sub install {
     my $self = shift;

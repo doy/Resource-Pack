@@ -10,11 +10,34 @@ Resource::Pack::Installable - role for installable resources
 
 =head1 SYNOPSIS
 
+    package My::New::Resource;
+    use Moose;
+    with 'Resource::Pack::Installable';
+
 =head1 DESCRIPTION
+
+This role implements various common bits of functionality for all installable
+resources.
 
 =cut
 
 requires 'install';
+
+=head1 ATTRIBUTES
+
+=cut
+
+=head2 _install_to_dir
+
+This is passed to the constructor as C<install_to>, and holds a path relative
+to the C<_install_to_dir> of its parent, representing the directory to install
+this resource into.
+
+=cut
+
+=head1 METHODS
+
+=cut
 
 has _install_to_dir => (
     is         => 'rw',
@@ -44,11 +67,28 @@ sub _install_to_parts {
     }
 }
 
+=head1 METHODS
+
+=cut
+
+=head2 install_to_dir
+
+Returns the complete directory where this resource will be installed to. Can
+also be used to set the C<_install_to_dir> attribute.
+
+=cut
+
 sub install_to_dir {
     my $self = shift;
     $self->_install_to_dir(@_);
     return Path::Class::Dir->new($self->_install_to_parts);
 }
+
+=head2 install_to_absolute
+
+Returns the target path that will be installed by this resource.
+
+=cut
 
 sub install_to_absolute {
     my $self = shift;
@@ -60,6 +100,17 @@ sub install_to_absolute {
     }
     return $to;
 }
+
+=head2 install
+
+Default implementation, which copies the file at C<install_from_absolute> to
+C<install_to_absolute>.
+
+After this method is run (either the default implementation or an overridden
+implementation), it will call C<install> on each of the dependencies of this
+resource.
+
+=cut
 
 sub install {
     my $self = shift;
@@ -77,6 +128,13 @@ after install => sub {
         }
     }
 };
+
+=head2 get
+
+Returns C<install_as>, to fulfill the requirements for the
+L<Bread::Board::Service> role.
+
+=cut
 
 sub get { shift->install_as }
 

@@ -11,7 +11,42 @@ Resource::Pack::Resource - a collection of resources
 
 =head1 SYNOPSIS
 
+    my $resource = Resource::Pack::Resource->new(
+        name         => 'test',
+        install_from => data_dir,
+    );
+    $resource->add_file(
+        name => 'test1',
+        file => 'test.txt'
+    );
+    $resource->add_dir(
+        name => 'test2',
+    );
+    $resource->add_url(
+        name => 'jquery',
+        url  => 'http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js',
+    );
+    $resource->install;
+
 =head1 DESCRIPTION
+
+This class is a collection of other resources. It can contain
+L<Resource::Pack::File>, L<Resource::Pack::Dir>, L<Resource::Pack::URL>, and
+other L<Resource::Pack::Resource> objects. It is a subclass of
+L<Bread::Board::Container>, and consumes the L<Resource::Pack::Installable>
+role.
+
+=cut
+
+=head1 ATTRIBUTES
+
+=cut
+
+=head2 install_from_dir
+
+Base dir, where the contents will be located. Defaults to the
+C<install_from_dir> of the parent resource. The associated constructor argument
+is C<install_from>.
 
 =cut
 
@@ -33,7 +68,19 @@ has install_from_dir => (
     },
 );
 
-# don't install subcontainer contents by default, unless they are explicit deps
+=head1 METHODS
+
+=cut
+
+=head2 install
+
+The install method for this class installs all of the resources that it
+contains, except for other L<Resource::Pack::Resource> resources. To also
+install contained Resource::Pack::Resource resources, use the C<install_all>
+method.
+
+=cut
+
 sub install {
     my $self = shift;
     for my $service_name ($self->get_service_list) {
@@ -41,6 +88,13 @@ sub install {
         $service->install if $service->does('Resource::Pack::Installable');
     }
 }
+
+=head2 install_all
+
+This method installs all contained resources, including other
+L<Resource::Pack::Resource> resources.
+
+=cut
 
 sub install_all {
     my $self = shift;
@@ -55,6 +109,13 @@ sub install_all {
     }
 }
 
+=head2 add_file
+
+Creates a L<Resource::Pack::File> resource inside this resource, passing any
+arguments along to the constructor.
+
+=cut
+
 sub add_file {
     my $self = shift;
     require Resource::Pack::File;
@@ -64,6 +125,13 @@ sub add_file {
     ));
 }
 
+=head2 add_dir
+
+Creates a L<Resource::Pack::Dir> resource inside this resource, passing any
+arguments along to the constructor.
+
+=cut
+
 sub add_dir {
     my $self = shift;
     require Resource::Pack::Dir;
@@ -72,6 +140,13 @@ sub add_dir {
         parent => $self,
     ));
 }
+
+=head2 add_url
+
+Creates a L<Resource::Pack::URL> resource inside this resource, passing any
+arguments along to the constructor.
+
+=cut
 
 sub add_url {
     my $self = shift;
