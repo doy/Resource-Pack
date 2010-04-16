@@ -21,8 +21,6 @@ resources.
 
 =cut
 
-requires 'install';
-
 =head1 ATTRIBUTES
 
 =cut
