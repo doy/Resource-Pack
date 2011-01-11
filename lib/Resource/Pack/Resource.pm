@@ -1,13 +1,10 @@
 package Resource::Pack::Resource;
 use Moose;
 use MooseX::Types::Path::Class qw(Dir);
+# ABSTRACT: a collection of resources
 
 extends 'Bread::Board::Container';
 with 'Resource::Pack::Installable';
-
-=head1 NAME
-
-Resource::Pack::Resource - a collection of resources
 
 =head1 SYNOPSIS
 
@@ -38,11 +35,7 @@ role.
 
 =cut
 
-=head1 ATTRIBUTES
-
-=cut
-
-=head2 install_from_dir
+=attr install_from_dir
 
 Base dir, where the contents will be located. Defaults to the
 C<install_from_dir> of the parent resource. The associated constructor argument
@@ -68,11 +61,7 @@ has install_from_dir => (
     },
 );
 
-=head1 METHODS
-
-=cut
-
-=head2 install
+=method install
 
 The install method for this class installs all of the resources that it
 contains, except for other L<Resource::Pack::Resource> resources. To also
@@ -89,7 +78,7 @@ sub install {
     }
 }
 
-=head2 install_all
+=method install_all
 
 This method installs all contained resources, including other
 L<Resource::Pack::Resource> resources.
@@ -109,7 +98,7 @@ sub install_all {
     }
 }
 
-=head2 add_file
+=method add_file
 
 Creates a L<Resource::Pack::File> resource inside this resource, passing any
 arguments along to the constructor.
@@ -125,7 +114,7 @@ sub add_file {
     ));
 }
 
-=head2 add_dir
+=method add_dir
 
 Creates a L<Resource::Pack::Dir> resource inside this resource, passing any
 arguments along to the constructor.
@@ -141,7 +130,7 @@ sub add_dir {
     ));
 }
 
-=head2 add_url
+=method add_url
 
 Creates a L<Resource::Pack::URL> resource inside this resource, passing any
 arguments along to the constructor.
@@ -159,20 +148,5 @@ sub add_url {
 
 __PACKAGE__->meta->make_immutable;
 no Moose;
-
-=head1 AUTHORS
-
-  Stevan Little <stevan.little@iinteractive.com>
-
-  Jesse Luehrs <doy at tozt dot net>
-
-=head1 COPYRIGHT AND LICENSE
-
-This software is copyright (c) 2010 Infinity Interactive, Inc.
-
-This is free software; you can redistribute it and/or modify it under
-the same terms as perl itself.
-
-=cut
 
 1;

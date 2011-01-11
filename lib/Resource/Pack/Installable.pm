@@ -1,12 +1,9 @@
 package Resource::Pack::Installable;
 use Moose::Role;
 use MooseX::Types::Path::Class qw(Dir);
+# ABSTRACT: role for installable resources
 
 use File::Copy::Recursive ();
-
-=head1 NAME
-
-Resource::Pack::Installable - role for installable resources
 
 =head1 SYNOPSIS
 
@@ -21,19 +18,11 @@ resources.
 
 =cut
 
-=head1 ATTRIBUTES
-
-=cut
-
-=head2 _install_to_dir
+=attr _install_to_dir
 
 This is passed to the constructor as C<install_to>, and holds a path relative
 to the C<_install_to_dir> of its parent, representing the directory to install
 this resource into.
-
-=cut
-
-=head1 METHODS
 
 =cut
 
@@ -65,11 +54,7 @@ sub _install_to_parts {
     }
 }
 
-=head1 METHODS
-
-=cut
-
-=head2 install_to_dir
+=method install_to_dir
 
 Returns the complete directory where this resource will be installed to. Can
 also be used to set the C<_install_to_dir> attribute.
@@ -82,7 +67,7 @@ sub install_to_dir {
     return Path::Class::Dir->new($self->_install_to_parts);
 }
 
-=head2 install_to_absolute
+=method install_to_absolute
 
 Returns the target path that will be installed by this resource.
 
@@ -99,7 +84,7 @@ sub install_to_absolute {
     return $to;
 }
 
-=head2 install
+=method install
 
 Default implementation, which copies the file at C<install_from_absolute> to
 C<install_to_absolute>.
@@ -127,7 +112,7 @@ after install => sub {
     }
 };
 
-=head2 get
+=method get
 
 Returns C<install_as>, to fulfill the requirements for the
 L<Bread::Board::Service> role.
@@ -137,20 +122,5 @@ L<Bread::Board::Service> role.
 sub get { shift->install_as }
 
 no Moose::Role;
-
-=head1 AUTHORS
-
-  Stevan Little <stevan.little@iinteractive.com>
-
-  Jesse Luehrs <doy at tozt dot net>
-
-=head1 COPYRIGHT AND LICENSE
-
-This software is copyright (c) 2010 Infinity Interactive, Inc.
-
-This is free software; you can redistribute it and/or modify it under
-the same terms as perl itself.
-
-=cut
 
 1;

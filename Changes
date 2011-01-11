@@ -1,4 +1,6 @@
-Revision history for Perl extension Resource::Pack
+Revision history for Resource-Pack
 
-0.01 Sunday, April 11, 2010
-    - first release of this module
+{{$NEXT}}
+
+0.01  2010-04-11
+      - first release of this module

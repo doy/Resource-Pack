@@ -42,7 +42,7 @@ sub test_install {
 
 sub data_dir {
     my $script = $0;
-    $script =~ s/.*(\d{3})-[\w-]+\.t$/$1/;
+    $script =~ s/.*(\d{2})-[\w-]+\.t$/$1/;
     return dir($FindBin::Bin, 'data', $script);
 }
 

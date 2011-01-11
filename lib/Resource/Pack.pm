@@ -1,5 +1,6 @@
 package Resource::Pack;
 use Moose::Exporter;
+# ABSTRACT: tools for managing application resources
 
 use Bread::Board;
 use Carp qw(confess);
@@ -9,10 +10,6 @@ use Resource::Pack::Dir;
 use Resource::Pack::File;
 use Resource::Pack::Resource;
 use Resource::Pack::URL;
-
-=head1 NAME
-
-Resource::Pack - tools for managing application resources
 
 =head1 SYNOPSIS
 
@@ -284,19 +281,6 @@ L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=Resource-Pack>
 L<http://search.cpan.org/dist/Resource-Pack>
 
 =back
-
-=head1 AUTHORS
-
-  Stevan Little <stevan.little@iinteractive.com>
-
-  Jesse Luehrs <doy at tozt dot net>
-
-=head1 COPYRIGHT AND LICENSE
-
-This software is copyright (c) 2010 Infinity Interactive, Inc.
-
-This is free software; you can redistribute it and/or modify it under
-the same terms as perl itself.
 
 =cut
 

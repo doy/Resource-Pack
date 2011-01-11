@@ -1,14 +1,11 @@
 package Resource::Pack::File;
 use Moose;
 use MooseX::Types::Path::Class qw(File Dir);
+# ABSTRACT: a file resource
 
 with 'Resource::Pack::Installable',
      'Bread::Board::Service',
      'Bread::Board::Service::WithDependencies';
-
-=head1 NAME
-
-Resource::Pack::File - a file resource
 
 =head1 SYNOPSIS
 
@@ -28,11 +25,7 @@ L<Bread::Board::Service::WithDependencies> roles.
 
 =cut
 
-=head1 ATTRIBUTES
-
-=cut
-
-=head2 file
+=attr file
 
 Read-only attribute for the source file. Defaults to the service name.
 
@@ -46,7 +39,7 @@ has file => (
     default => sub { Path::Class::File->new(shift->name) },
 );
 
-=head2 install_from_dir
+=attr install_from_dir
 
 Base dir, where C<file> is located. Defaults to the C<install_from_dir> of the
 parent resource. The associated constructor argument is C<install_from>.
@@ -70,7 +63,7 @@ has install_from_dir => (
     },
 );
 
-=head2 install_as
+=attr install_as
 
 The name to use for the installed file. Defaults to C<file>.
 
@@ -84,11 +77,7 @@ has install_as => (
     default => sub { shift->file },
 );
 
-=head1 METHODS
-
-=cut
-
-=head2 install_from_absolute
+=method install_from_absolute
 
 Entire path to the source file (concatenation of C<install_from_dir> and
 C<file>).
@@ -102,20 +91,5 @@ sub install_from_absolute {
 
 __PACKAGE__->meta->make_immutable;
 no Moose;
-
-=head1 AUTHORS
-
-  Stevan Little <stevan.little@iinteractive.com>
-
-  Jesse Luehrs <doy at tozt dot net>
-
-=head1 COPYRIGHT AND LICENSE
-
-This software is copyright (c) 2010 Infinity Interactive, Inc.
-
-This is free software; you can redistribute it and/or modify it under
-the same terms as perl itself.
-
-=cut
 
 1;

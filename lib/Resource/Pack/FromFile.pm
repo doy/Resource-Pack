@@ -2,12 +2,9 @@ package Resource::Pack::FromFile;
 use Moose;
 use MooseX::Types::Path::Class qw(File);
 use Resource::Pack;
+# ABSTRACT: easily use external resource description files
 
 extends 'Resource::Pack::Resource';
-
-=head1 NAME
-
-Resource::Pack::FromFile - easily use external resource description files
 
 =head1 SYNOPSIS
 
@@ -47,11 +44,7 @@ resource definition from a separate file.
 
 =cut
 
-=head1 ATTRIBUTES
-
-=cut
-
-=head2 resource_file
+=attr resource_file
 
 The file to read the resource definition from. The containing directory is used
 as the default for C<install_from>.
@@ -77,19 +70,10 @@ __PACKAGE__->meta->make_immutable;
 no Moose;
 no Resource::Pack;
 
-=head1 AUTHORS
+=begin Pod::Coverage
 
-  Stevan Little <stevan.little@iinteractive.com>
+BUILD
 
-  Jesse Luehrs <doy at tozt dot net>
-
-=head1 COPYRIGHT AND LICENSE
-
-This software is copyright (c) 2010 Infinity Interactive, Inc.
-
-This is free software; you can redistribute it and/or modify it under
-the same terms as perl itself.
-
-=cut
+=end Pod::Coverage
 
 1;
