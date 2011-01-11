@@ -2,5 +2,8 @@ Revision history for Resource-Pack
 
 {{$NEXT}}
 
-0.01  2010-04-11
+0.02  2010-04-18
+      - complete rewrite, using Bread::Board
+
+0.01  2010-04-12
       - first release of this module
