@@ -1,6 +1,8 @@
 Revision history for Resource-Pack
 
 {{$NEXT}}
+
+0.03  2011-03-07
       - fix attribute initialization order issue
       - switch to Test::Fatal
 
