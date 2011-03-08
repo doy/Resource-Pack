@@ -52,6 +52,7 @@ has install_from_dir => (
     coerce     => 1,
     init_arg   => 'install_from',
     predicate  => 'has_install_from_dir',
+    lazy       => 1,
     default    => sub {
         my $self = shift;
         if ($self->has_parent && $self->parent->has_install_from_dir) {
@@ -77,6 +78,11 @@ has install_as => (
     default => sub { shift->dir },
 );
 
+sub BUILD {
+    my $self = shift;
+    $self->install_from_dir;
+}
+
 =method install_from_absolute
 
 Entire path to the source directory (concatenation of C<install_from_dir> and
@@ -91,5 +97,13 @@ sub install_from_absolute {
 
 __PACKAGE__->meta->make_immutable;
 no Moose;
+
+=begin Pod::Coverage
+
+BUILD
+
+=end Pod::Coverage
+
+=cut
 
 1;
