@@ -1,6 +1,8 @@
 Revision history for Resource-Pack
 
 {{$NEXT}}
+      - fix attribute initialization order issue
+      - switch to Test::Fatal
 
 0.02  2010-04-18
       - complete rewrite, using Bread::Board
