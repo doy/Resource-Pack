@@ -4,9 +4,13 @@ use Test::Resource::Pack;
 
 use Resource::Pack::File;
 
-throws_ok { Resource::Pack::File->new(name => 'test', file => 'test.txt') }
-          qr/install_from is required/,
-          "install_from is required for lone Files";
+like(
+    exception {
+        Resource::Pack::File->new(name => 'test', file => 'test.txt')
+    },
+    qr/install_from is required/,
+    "install_from is required for lone Files"
+);
 
 {
     my $file = Resource::Pack::File->new(

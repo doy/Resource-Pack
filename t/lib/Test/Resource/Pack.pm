@@ -3,7 +3,7 @@ use strict;
 use warnings;
 
 use Test::More;
-use Test::Exception ();
+use Test::Fatal;
 use Test::Moose ();
 
 use FindBin;
@@ -13,8 +13,8 @@ use Cwd;
 
 use Sub::Exporter;
 my $import = Sub::Exporter::build_exporter({
-    exports => [qw(test_install data_dir)],
-    groups  => { default => [qw(test_install data_dir)] }
+    exports => [qw(test_install data_dir exception)],
+    groups  => { default => [qw(test_install data_dir exception)] }
 });
 
 sub test_install {
@@ -48,7 +48,6 @@ sub data_dir {
 
 sub import {
     Test::More->export_to_level(2);
-    Test::Exception->export_to_level(2);
     Test::Moose->import({into_level => 2});
     Path::Class->export_to_level(2);
     strict->import;

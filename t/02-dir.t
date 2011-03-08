@@ -4,9 +4,13 @@ use Test::Resource::Pack;
 
 use Resource::Pack::Dir;
 
-throws_ok { Resource::Pack::Dir->new(name => 'test', dir => 'css') }
-          qr/install_from is required/,
-          "install_from is required for lone Dirs";
+like(
+    exception {
+        Resource::Pack::Dir->new(name => 'test', dir => 'css')
+    },
+    qr/install_from is required/,
+    "install_from is required for lone Dirs"
+);
 
 {
     my $dir = Resource::Pack::Dir->new(
