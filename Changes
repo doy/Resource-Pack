@@ -1,6 +1,7 @@
 Revision history for Resource-Pack
 
 {{$NEXT}}
+      - Add file_class, dir_class and url_class to specify other classes to use.
 
 0.03  2011-03-07
       - fix attribute initialization order issue

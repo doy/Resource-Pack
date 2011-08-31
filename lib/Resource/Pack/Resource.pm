@@ -1,6 +1,8 @@
 package Resource::Pack::Resource;
 use Moose;
 use MooseX::Types::Path::Class qw(Dir);
+use Class::Load;
+
 # ABSTRACT: a collection of resources
 
 extends 'Bread::Board::Container';
@@ -61,6 +63,42 @@ has install_from_dir => (
     },
 );
 
+=attr file_class
+
+What class to use in add_file. Defaults to L<Resource::Pack::File>.
+
+=cut
+
+has 'file_class' => (
+    is      => 'ro',
+    isa     => 'Str',
+    default => 'Resource::Pack::File',
+);
+
+=attr dir_class
+
+What class to use in dir_file. Defaults to L<Resource::Pack::Dir>.
+
+=cut
+
+has 'dir_class' => (
+    is      => 'ro',
+    isa     => 'Str',
+    default => 'Resource::Pack::Dir',
+);
+
+=attr url_class
+
+What class to use in url_file. Defaults to L<Resource::Pack::URL>.
+
+=cut
+
+has 'url_class' => (
+    is      => 'ro',
+    isa     => 'Str',
+    default => 'Resource::Pack::URL',
+);
+
 =method install
 
 The install method for this class installs all of the resources that it
@@ -107,8 +145,8 @@ arguments along to the constructor.
 
 sub add_file {
     my $self = shift;
-    require Resource::Pack::File;
-    $self->add_service(Resource::Pack::File->new(
+    Class::Load::load_class( $self->file_class );
+    $self->add_service( $self->file_class->new(
         @_,
         parent => $self,
     ));
@@ -123,8 +161,8 @@ arguments along to the constructor.
 
 sub add_dir {
     my $self = shift;
-    require Resource::Pack::Dir;
-    $self->add_service(Resource::Pack::Dir->new(
+    Class::Load::load_class( $self->dir_class );
+    $self->add_service($self->dir_class->new(
         @_,
         parent => $self,
     ));
@@ -139,8 +177,8 @@ arguments along to the constructor.
 
 sub add_url {
     my $self = shift;
-    require Resource::Pack::URL;
-    $self->add_service(Resource::Pack::URL->new(
+    Class::Load::load_class( $self->url_class );
+    $self->add_service($self->url_class->new(
         @_,
         parent => $self,
     ));
