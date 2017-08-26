@@ -1,5 +1,4 @@
 package Resource::Pack;
-use Moose::Exporter;
 # ABSTRACT: tools for managing application resources
 
 use Bread::Board;
@@ -10,6 +9,12 @@ use Resource::Pack::Dir;
 use Resource::Pack::File;
 use Resource::Pack::Resource;
 use Resource::Pack::URL;
+
+use parent 'Exporter';
+
+our @EXPORT = ( qw/
+    resource file dir url install_to install_from install_as include
+/, @Bread::Board::EXPORT );
 
 =head1 SYNOPSIS
 
@@ -213,12 +218,6 @@ sub install_as ($) {
         }
     }
 }
-
-Moose::Exporter->setup_import_methods(
-    also  => ['Bread::Board'],
-    as_is => [qw(resource file dir url install_to install_from install_as
-                 include)],
-);
 
 =head1 TODO
 
